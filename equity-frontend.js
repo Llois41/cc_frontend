@@ -1,29 +1,38 @@
 'use strict'
 
+let baseUrl = 'http://localhost:3000/equities'
+
 async function sendRequest() {
   let equity = document.getElementById('equity').value;
   let equityEndpoint = makeRequest(equity)
   callEndpoint(equityEndpoint).then(
     response => {
       let responseArr = [];
-      for (let [key, value] of Object.entries(response['Time Series (30min)'])){
-        let resObj = {} ;
-        resObj['key'] = key;
-        resObj['value'] = value;
-        responseArr.push(resObj);
-        console.log('object: ' + JSON.stringify(resObj));
+
+      for (let [key, value] of Object.entries(response)) {
+        let obj2Split = value
+        for (let [nKey, nValue] of Object.entries(obj2Split)) {
+          let resObj = {}
+          resObj['key'] = nKey;
+          resObj['value'] = nValue['href'];
+          console.log(JSON.stringify(resObj));
+          responseArr.push(resObj);
+        }
       }
-      var resDiv = document.createElement("div");
-      var metaContent = document.createTextNode('Meta: ' + JSON.stringify(response['Meta Data']));
-      resDiv.appendChild(metaContent);
+      let resDiv = document.createElement("div");
 
       for (let i = 0; i < responseArr.length; i++) {
-        let textNode = document.createTextNode(JSON.stringify(responseArr[i]))
-        resDiv.appendChild(textNode);
+        let btn = document.createElement('BUTTON');
+        btn.innerHTML = JSON.stringify(responseArr[i].key);
+        btn.onclick = function () {
+          callEndpoint(baseUrl + responseArr[i].value);
+        }
+        console.log('url to call: ' + baseUrl + responseArr[i].value);
+        resDiv.appendChild(btn);
         resDiv.appendChild(document.createElement("br"));
       }
-      
-      var currentDiv = document.getElementById("div1");
+
+      let currentDiv = document.getElementById("div1");
       document.body.insertBefore(resDiv, currentDiv);
 
 
@@ -36,7 +45,7 @@ async function sendRequest() {
 }
 
 function makeRequest(equity) {
-  let equityEndpoint = 'http://localhost:3000/equities/' + equity
+  let equityEndpoint = baseUrl + '/' + equity
   return equityEndpoint
 }
 
