@@ -9,15 +9,12 @@ async function sendRequest() {
     response => {
       let responseArr = [];
 
-      for (let [key, value] of Object.entries(response)) {
-        let obj2Split = value
-        for (let [nKey, nValue] of Object.entries(obj2Split)) {
-          let resObj = {}
-          resObj['key'] = nKey;
-          resObj['value'] = nValue['href'];
-          console.log(JSON.stringify(resObj));
-          responseArr.push(resObj);
-        }
+
+      for (let [key, value] of Object.entries(response['_links'])) {
+        let resObj = {}
+        resObj['key'] = key;
+        resObj['value'] = value['href'];
+        responseArr.push(resObj);
       }
       let resDiv = document.createElement("div");
 
@@ -25,23 +22,23 @@ async function sendRequest() {
         let btn = document.createElement('BUTTON');
         btn.innerHTML = JSON.stringify(responseArr[i].key);
         btn.onclick = function () {
-          callEndpoint(baseUrl + responseArr[i].value);
+          callEndpoint(baseUrl + responseArr[i].value)
+          .then(response => {
+            const tsDiv = document.createElement('div');
+            const resP = document.createElement('p');
+            resP.innerHTML = JSON.stringify(response);
+            tsDiv.appendChild(resP);
+            document.body.insertBefore(tsDiv, resDiv)
+          });
         }
-        console.log('url to call: ' + baseUrl + responseArr[i].value);
         resDiv.appendChild(btn);
         resDiv.appendChild(document.createElement("br"));
       }
 
       let currentDiv = document.getElementById("div1");
       document.body.insertBefore(resDiv, currentDiv);
-
-
-
-
     }
   );
-  //console.log('response' + response)
-
 }
 
 function makeRequest(equity) {
