@@ -49,11 +49,7 @@ function makeRequest(equity) {
 async function callEndpoint(endpointUrl) {
   const response = await fetch(endpointUrl, {
     method: 'GET',
-  });
-  try {
+  });  
     let data = await response.json();
-  } catch (err) {
-    console.error(err);
-  }
-  return data;
+    return data;
 }
