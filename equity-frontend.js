@@ -1,17 +1,17 @@
 'use strict'
 
-let baseUrl = 'http://localhost:3000/equities'
+let baseUrl = 'http://localhost:3000/equities';
 
 async function sendRequest() {
   let equity = document.getElementById('equity').value;
-  let equityEndpoint = makeRequest(equity)
+  let equityEndpoint = makeRequest(equity);
   callEndpoint(equityEndpoint).then(
     response => {
       let responseArr = [];
 
 
       for (let [key, value] of Object.entries(response['_links'])) {
-        let resObj = {}
+        let resObj = {};
         resObj['key'] = key;
         resObj['value'] = value['href'];
         responseArr.push(resObj);
@@ -23,13 +23,13 @@ async function sendRequest() {
         btn.innerHTML = JSON.stringify(responseArr[i].key);
         btn.onclick = function () {
           callEndpoint(baseUrl + responseArr[i].value)
-          .then(response => {
-            const tsDiv = document.createElement('div');
-            const resP = document.createElement('p');
-            resP.innerHTML = JSON.stringify(response);
-            tsDiv.appendChild(resP);
-            document.body.insertBefore(tsDiv, resDiv)
-          });
+            .then(response => {
+              const tsDiv = document.createElement('div');
+              const resP = document.createElement('p');
+              resP.innerHTML = JSON.stringify(response);
+              tsDiv.appendChild(resP);
+              document.body.insertBefore(tsDiv, resDiv)
+            });
         }
         resDiv.appendChild(btn);
         resDiv.appendChild(document.createElement("br"));
@@ -42,15 +42,18 @@ async function sendRequest() {
 }
 
 function makeRequest(equity) {
-  let equityEndpoint = baseUrl + '/' + equity
-  return equityEndpoint
+  let equityEndpoint = baseUrl + '/' + equity;
+  return equityEndpoint;
 }
 
 async function callEndpoint(endpointUrl) {
   const response = await fetch(endpointUrl, {
     method: 'GET',
   });
-  let data = await response.json();
-  console.log("[callEndpoint]: ", data);
+  try {
+    let data = await response.json();
+  } catch (err) {
+    console.error(err);
+  }
   return data;
 }
