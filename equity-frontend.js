@@ -20,16 +20,10 @@ async function sendRequest() {
 
       for (let i = 0; i < responseArr.length; i++) {
         let btn = document.createElement('BUTTON');
-        btn.innerHTML = JSON.stringify(responseArr[i].key);
+        btn.innerHTML = JSON.stringify(responseArr[i].key).replace(/"/g, '');
         btn.onclick = function () {
-          callEndpoint(baseUrl + responseArr[i].value)
-            .then(response => {
-              const tsDiv = document.createElement('div');
-              const resP = document.createElement('p');
-              resP.innerHTML = JSON.stringify(response);
-              tsDiv.appendChild(resP);
-              document.body.insertBefore(tsDiv, resDiv)
-            });
+          sessionStorage.setItem('results', baseUrl + responseArr[i].value);
+          window.location.assign('/results.html');
         }
         resDiv.appendChild(btn);
         resDiv.appendChild(document.createElement("br"));
@@ -48,8 +42,9 @@ function makeRequest(equity) {
 
 async function callEndpoint(endpointUrl) {
   const response = await fetch(endpointUrl, {
-    method: 'GET',
-  });  
-    let data = await response.json();
-    return data;
+      method: 'GET',
+  });
+  let data = await response.json();
+  return data;
 }
+
