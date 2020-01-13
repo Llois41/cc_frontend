@@ -5,8 +5,8 @@ let baseUrl = 'http://localhost:3000/equities';
 async function sendRequest() {
   let equity = document.getElementById('equity').value;
   let equityEndpoint = makeRequest(equity);
-  callEndpoint(equityEndpoint).then(
-    response => {
+  callEndpoint(equityEndpoint)
+    .then(response => {
       let responseArr = [];
 
 
@@ -28,11 +28,10 @@ async function sendRequest() {
         resDiv.appendChild(btn);
         resDiv.appendChild(document.createElement("br"));
       }
-
       let currentDiv = document.getElementById("div1");
       document.body.insertBefore(resDiv, currentDiv);
     }
-  );
+    );
 }
 
 function makeRequest(equity) {
@@ -42,7 +41,7 @@ function makeRequest(equity) {
 
 async function callEndpoint(endpointUrl) {
   const response = await fetch(endpointUrl, {
-      method: 'GET',
+    method: 'GET',
   });
   let data = await response.json();
   return data;
