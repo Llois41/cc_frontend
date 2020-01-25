@@ -9,7 +9,6 @@ async function sendRequest() {
     .then(response => {
       let responseArr = [];
 
-
       for (let [key, value] of Object.entries(response['_links'])) {
         let resObj = {};
         resObj['key'] = key;
@@ -30,10 +29,8 @@ async function sendRequest() {
       }
       let currentDiv = document.getElementById("div1");
       document.body.insertBefore(resDiv, currentDiv);
-    }
-    );
+    });
 }
-
 function makeRequest(equity) {
   let equityEndpoint = baseUrl + '/' + equity;
   return equityEndpoint;

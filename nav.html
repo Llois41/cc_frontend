@@ -1,0 +1,25 @@
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script>
+    $(function () {
+        let current = location.pathname;
+        current = current.substring(1);
+        console.log("Current: " + current);
+        $('#cssmenu ul li a').click(function () {
+
+            let $this = $(this);
+            console.log($this.attr('href'))
+            if ($this.attr('href') !== current) {
+                $this.parent().addClass('active');
+                console.log("Parent: " + JSON.stringify($this.parent()));
+            }
+            //return false;
+        })
+    })
+</script>
+
+<ul>
+    <li><a href='/index.html'>Home</a></li>
+    <li><a href='/depot.html'>Mein Depot</a></li>
+    <li><a href='/equity.html'>Markt</a></li>
+    <li><a href='/news.html'>News</a></li>
+</ul>
