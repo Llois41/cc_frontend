@@ -1,0 +1,25 @@
+{
+  "name": "cc_frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "equity-frontend.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Llois41/cc_frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Llois41/cc_frontend/issues"
+  },
+  "homepage": "https://github.com/Llois41/cc_frontend#readme"
+}

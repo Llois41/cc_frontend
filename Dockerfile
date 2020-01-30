@@ -1,4 +1,5 @@
-FROM node:latest
-COPY . /public
-RUN cd /public; npm i http-server -g; npm i
-ENTRYPOINT http-server
+FROM mhart/alpine-node:latest
+COPY . /src
+WORKDIR /src
+RUN npm install
+ENTRYPOINT exec node bin/www
